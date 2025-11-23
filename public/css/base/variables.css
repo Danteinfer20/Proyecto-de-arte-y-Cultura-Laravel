@@ -1,0 +1,22 @@
+/* public/css/base/variables.css */
+:root {
+    --color-negro: #000000;
+    --color-azul: #474BCA;
+    --color-azul-claro: #6A6DE0;
+    --color-blanco: #FFFFFF;
+    --color-gris-claro: #F5F5F5;
+    --color-gris: #E0E0E0;
+    --color-texto-oscuro: #333333;
+    --color-texto-claro: #FFFFFF;
+    --degradado-principal: linear-gradient(90deg, #000000 36%, #474BCA 100%);
+    --degradado-secundario: linear-gradient(90deg, #474BCA 0%, #6A6DE0 100%);
+    --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --sombra-media: 0 8px 25px rgba(0, 0, 0, 0.15);
+    
+    /* Espaciados */
+    --espacio-xs: 0.5rem;
+    --espacio-sm: 1rem;
+    --espacio-md: 2rem;
+    --espacio-lg: 3rem;
+    --espacio-xl: 4rem;
+}
