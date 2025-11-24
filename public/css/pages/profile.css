@@ -1,0 +1,221 @@
+/* public/css/pages/profile.css */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--espacio-xl) var(--espacio-md);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: var(--espacio-xl);
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-texto-oscuro);
+    margin-bottom: var(--espacio-xs);
+}
+
+.profile-header p {
+    color: var(--color-texto-oscuro);
+    opacity: 0.7;
+    font-size: 1.1rem;
+}
+
+.profile-content {
+    background: var(--color-blanco);
+    border-radius: 15px;
+    box-shadow: var(--sombra-suave);
+    padding: var(--espacio-xl);
+}
+
+/* Alertas */
+.alert {
+    padding: var(--espacio-sm) var(--espacio-md);
+    border-radius: 8px;
+    margin-bottom: var(--espacio-lg);
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Secciones del formulario */
+.form-section {
+    margin-bottom: var(--espacio-xl);
+    padding-bottom: var(--espacio-lg);
+    border-bottom: 1px solid var(--color-gris);
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: var(--espacio-lg);
+}
+
+.form-section h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-texto-oscuro);
+    margin-bottom: var(--espacio-md);
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-xs);
+}
+
+/* Grid de imágenes */
+.image-upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espacio-lg);
+    margin-bottom: var(--espacio-md);
+}
+
+.image-upload-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-sm);
+}
+
+.image-upload-group label {
+    font-weight: 600;
+    color: var(--color-texto-oscuro);
+}
+
+.image-preview {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed var(--color-gris);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--color-gris-claro);
+}
+
+.profile-preview {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-placeholder {
+    text-align: center;
+    color: var(--color-texto-oscuro);
+    opacity: 0.5;
+}
+
+.profile-preview .image-placeholder {
+    width: 80px;
+    height: 80px;
+    background: var(--color-azul-claro);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-blanco);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.image-input {
+    display: none;
+}
+
+/* Grid de formularios */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espacio-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xs);
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--color-texto-oscuro);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid var(--color-gris);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-azul);
+    box-shadow: 0 0 0 3px rgba(71, 75, 202, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Botones de acción */
+.form-actions {
+    display: flex;
+    gap: var(--espacio-md);
+    justify-content: flex-end;
+    margin-top: var(--espacio-lg);
+    padding-top: var(--espacio-lg);
+    border-top: 1px solid var(--color-gris);
+}
+
+/* Error messages */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: var(--espacio-md) var(--espacio-sm);
+    }
+    
+    .profile-content {
+        padding: var(--espacio-lg);
+    }
+    
+    .image-upload-grid {
+        grid-template-columns: 1fr;
+        gap: var(--espacio-md);
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .profile-header h1 {
+        font-size: 2rem;
+    }
+}

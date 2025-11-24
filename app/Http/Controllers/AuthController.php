@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -70,9 +71,8 @@ class AuthController extends Controller
             'is_verified' => false
         ]);
 
-        // Redireccionar con mensaje de éxito
-        return redirect()->route('login')
-            ->with('success', '¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.');
+        // Redirección al login con mensaje de éxito
+        return redirect('/login')->with('success', '¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.');
     }
 
     public function showLogin()
@@ -82,13 +82,43 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Esto lo implementaremos después del registro
-        return redirect()->route('home');
+        // Validación de datos
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Intentar autenticación
+        $credentials = $request->only('email', 'password');
+        $remember = $request->has('remember');
+        
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+            
+            // Actualizar last_login_at
+            Auth::user()->update(['last_login_at' => now()]);
+            
+            return redirect()->intended('/');
+        }
+
+        // Si falla la autenticación
+        return redirect()->back()
+            ->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.'])
+            ->withInput();
     }
 
     public function logout(Request $request)
     {
-        // Esto lo implementaremos después del login
-        return redirect()->route('home');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 }
