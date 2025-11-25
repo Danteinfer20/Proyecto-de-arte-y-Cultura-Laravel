@@ -1,4 +1,4 @@
-/* public/css/base/variables.css */
+/* public/css/base/variables.css - VERSIÓN COMPLETA */
 :root {
     --color-negro: #000000;
     --color-azul: #474BCA;
@@ -8,6 +8,17 @@
     --color-gris: #E0E0E0;
     --color-texto-oscuro: #333333;
     --color-texto-claro: #FFFFFF;
+    
+    /* NUEVAS VARIABLES PARA DASHBOARD */
+    --color-primary: #474BCA;          /* Usa el azul existente */
+    --color-primary-oscuro: #3A3DA8;   /* Azul más oscuro */
+    --color-secondary: #6A6DE0;        /* Azul claro existente */
+    --color-secondary-oscuro: #5A5DC7; /* Azul claro oscuro */
+    --color-gris-muy-claro: #FAFAFA;   /* Gris más claro */
+    --color-exito: #10B981;            /* Verde para estadísticas */
+    --color-alerta: #F59E0B;           /* Amarillo */
+    --color-peligro: #EF4444;          /* Rojo */
+    
     --degradado-principal: linear-gradient(90deg, #000000 36%, #474BCA 100%);
     --degradado-secundario: linear-gradient(90deg, #474BCA 0%, #6A6DE0 100%);
     --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.1);

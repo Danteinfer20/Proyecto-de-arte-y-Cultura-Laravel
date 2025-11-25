@@ -3,46 +3,59 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Event;
-use App\Models\Product;
-use App\Models\User;
-use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display the dashboard page (TRADICIONAL - HTML)
-     */
     public function index()
     {
-        $user = auth()->user();
-        $basicStats = $this->getBasicStats();
+        $user = Auth::user();
         
-        // Vista según tipo de usuario
-        switch($user->user_type) {
+        // Redirigir según el tipo de usuario
+        switch ($user->user_type) {
             case 'admin':
-                return view('dashboard.admin', compact('basicStats'));
-            case 'artisan':
-                return view('dashboard.artisan', compact('basicStats'));
-            case 'client':
+                return redirect()->route('dashboard.admin');
+            case 'artist':
+                return redirect()->route('dashboard.artist');
+            case 'cultural_manager':
+                return redirect()->route('dashboard.cultural-manager');
+            case 'visitor':
+                return redirect()->route('dashboard.visitor');
             default:
-                return view('dashboard.client', compact('basicStats'));
+                return redirect()->route('dashboard.visitor');
         }
     }
     
-    /**
-     * Datos básicos para el dashboard (LO USARÁN HTML Y API)
-     */
-    private function getBasicStats()
+    public function artist()
     {
-        $user = auth()->user();
+        $user = Auth::user();
+        $posts = $user->posts ?? collect();
+        $products = $user->products ?? collect();
+        $events = $user->events ?? collect();
         
-        return [
-            'total_events' => Event::count(),
-            'total_products' => Product::count(),
-            'total_posts' => Post::count(),
-            'user_type' => $user->user_type,
-            'user_name' => $user->name,
-        ];
+        return view('dashboard.artist', compact('posts', 'products', 'events'));
+    }
+    
+    public function admin()
+    {
+        return view('dashboard.admin');
+    }
+    
+    public function culturalManager()
+    {
+        return view('dashboard.cultural_manager');
+    }
+    
+    public function visitor()
+    {
+        return view('dashboard.visitor');
+    }
+    
+    public function gallery()
+    {
+        $user = Auth::user();
+        $posts = $user->posts ?? collect();
+        
+        return view('artist.gallery', compact('posts'));
     }
 }

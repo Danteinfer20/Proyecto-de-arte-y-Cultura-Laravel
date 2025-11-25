@@ -1,14 +1,11 @@
 <?php
+// app/Models/Post.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -17,96 +14,75 @@ class Post extends Model
 
     protected $fillable = [
         'user_id',
-        'category_id',
+        'category_id', 
         'content_type_id',
         'title',
         'slug',
-        'excerpt',
         'content',
+        'excerpt', // Asegúrate que esté en fillable
         'featured_image',
         'status',
         'is_featured',
-        'is_educational',
+        'allow_comments',
         'view_count',
         'share_count',
-        'allow_comments',
         'published_at'
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'is_featured' => 'boolean',
-        'is_educational' => 'boolean',
         'allow_comments' => 'boolean',
-        'view_count' => 'integer',
-        'share_count' => 'integer',
     ];
 
-    public function user(): BelongsTo
+    /* ============================
+     *    RELACIONES
+     * ============================ */
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function category(): BelongsTo
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function contentType(): BelongsTo
+    public function contentType()
     {
         return $this->belongsTo(ContentType::class);
     }
 
-    public function tags(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class, 'post_tags');
-    }
-
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function media(): HasMany
-    {
-        return $this->hasMany(PostMedia::class);
-    }
-
-    // RELACIÓN CORREGIDA - No es polimórfica
-    public function reactions(): HasMany
-    {
-        return $this->hasMany(Reaction::class);
-    }
-
-    // RELACIÓN CORREGIDA - No es polimórfica en tu BD
-    public function savedItems(): HasMany
-    {
-        return $this->hasMany(SavedItem::class);
-    }
-
-    public function events(): HasOne
+    public function event()
     {
         return $this->hasOne(Event::class);
     }
 
-    public function educationalContent(): HasOne
+    public function comments()
     {
-        return $this->hasOne(EducationalContent::class);
+        return $this->hasMany(Comment::class);
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tags');
     }
 
     /* ============================
-     *    SCOPES ÚTILES
+     *    SCOPES
      * ============================ */
 
     public function scopePublished($query)
     {
         return $query->where('status', 'published')
-                    ->whereNotNull('published_at');
-    }
-
-    public function scopeEducational($query)
-    {
-        return $query->where('is_educational', true);
+                    ->whereNotNull('published_at')
+                    ->where('published_at', '<=', now());
     }
 
     public function scopeFeatured($query)
@@ -123,17 +99,48 @@ class Post extends Model
         $this->increment('view_count');
     }
 
+    // 🔧 MÉTODO CORREGIDO - Evita recursión infinita
     public function getExcerptAttribute(): string
     {
-        if ($this->excerpt) {
-            return $this->excerpt;
+        // Si ya existe un excerpt definido, úsalo
+        if (!empty($this->attributes['excerpt'])) {
+            return $this->attributes['excerpt'];
         }
 
-        return Str::limit(strip_tags($this->content), 150);
+        // Si no hay excerpt, genera uno del contenido
+        return Str::limit(strip_tags($this->attributes['content'] ?? ''), 150);
+    }
+
+    // Método alternativo más seguro
+    public function getSafeExcerptAttribute(): string
+    {
+        $excerpt = $this->attributes['excerpt'] ?? null;
+        
+        if (!empty($excerpt)) {
+            return $excerpt;
+        }
+
+        $content = $this->attributes['content'] ?? '';
+        return Str::limit(strip_tags($content), 150);
     }
 
     public function isPublished(): bool
     {
         return $this->status === 'published' && $this->published_at !== null;
+    }
+
+    // Helper para obtener la URL del post
+    public function getUrlAttribute(): string
+    {
+        return route('posts.show', $this->slug ?? $this->id);
+    }
+
+    // Método para obtener imagen destacada
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        if ($this->featured_image) {
+            return Storage::url($this->featured_image);
+        }
+        return null;
     }
 }

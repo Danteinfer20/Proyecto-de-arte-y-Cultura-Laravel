@@ -1,41 +1,63 @@
-/* public/css/components/cards.css */
 /* ===== CARDS MODERNAS E INTERACTIVAS ===== */
+:root {
+    /* Variables para compatibilidad */
+    --sombra-suave: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --sombra-media: 0 8px 30px rgba(0, 0, 0, 0.15);
+    --sombra-fuerte: 0 15px 40px rgba(0, 0, 0, 0.2);
+    --color-texto-oscuro: #2c3e50;
+    --color-gris: #ecf0f1;
+    --color-exito: #27ae60;
+    --color-advertencia: #e67e22;
+    --color-peligro: #e74c3c;
+}
 
 /* Card Base */
 .card {
     background: var(--color-blanco);
-    border-radius: 15px;
+    border-radius: 20px;
     box-shadow: var(--sombra-suave);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--sombra-media);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--sombra-fuerte);
 }
 
 .card-image {
     width: 100%;
-    height: 200px;
-    background: var(--degradado-secundario);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-blanco);
-    font-size: 3rem;
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--color-azul) 0%, var(--color-azul-claro) 100%);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.card:hover .card-image img {
+    transform: scale(1.1);
 }
 
 .card-content {
     padding: var(--espacio-md);
+    position: relative;
 }
 
 .card-header {
     display: flex;
-    justify-content: between;
-    align-items: start;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: var(--espacio-sm);
+    gap: var(--espacio-sm);
 }
 
 .card-title {
@@ -44,16 +66,19 @@
     color: var(--color-texto-oscuro);
     margin-bottom: var(--espacio-xs);
     line-height: 1.3;
+    flex: 1;
 }
 
 .card-category {
     background: var(--color-azul-claro);
     color: var(--color-blanco);
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* ===== CARD DE EVENTOS ===== */
@@ -68,6 +93,7 @@
     color: var(--color-azul);
     font-weight: 600;
     margin-bottom: var(--espacio-xs);
+    font-size: 0.9rem;
 }
 
 .event-location {
@@ -81,14 +107,14 @@
 }
 
 .event-price {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--color-azul);
     margin-bottom: var(--espacio-sm);
 }
 
 .event-price.free {
-    color: #27ae60;
+    color: var(--color-exito);
 }
 
 /* ===== CARD DE PRODUCTOS ===== */
@@ -104,7 +130,7 @@
 }
 
 .current-price {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--color-azul);
 }
@@ -126,37 +152,17 @@
 }
 
 .stock-badge {
-    background: #27ae60;
+    background: var(--color-exito);
     color: var(--color-blanco);
-    padding: 4px 8px;
-    border-radius: 12px;
+    padding: 6px 12px;
+    border-radius: 15px;
     font-size: 0.8rem;
     font-weight: 600;
+    text-transform: uppercase;
 }
 
-/* ===== CARD DE POSTS ===== */
-.post-card .card-image {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.post-excerpt {
-    color: var(--color-texto-oscuro);
-    opacity: 0.8;
-    line-height: 1.5;
-    margin-bottom: var(--espacio-sm);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.post-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    color: var(--color-texto-oscuro);
-    opacity: 0.7;
+.stock-badge.low-stock {
+    background: var(--color-advertencia);
 }
 
 /* ===== CARD DE CATEGORÍAS ===== */
@@ -166,19 +172,38 @@
     background: linear-gradient(135deg, var(--color-azul) 0%, var(--color-azul-claro) 100%);
     color: var(--color-blanco);
     border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.category-card:hover::before {
+    left: 100%;
 }
 
 .category-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-8px) scale(1.05);
 }
 
 .category-icon {
-    font-size: 3rem;
-    margin-bottom: var(--espacio-sm);
+    font-size: 3.5rem;
+    margin-bottom: var(--espacio-md);
+    opacity: 0.9;
 }
 
 .category-name {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: var(--espacio-xs);
 }
@@ -188,19 +213,157 @@
     font-size: 0.9rem;
 }
 
+/* ===== CARD DE ARTISTAS ===== */
+.artist-card {
+    text-align: center;
+    padding: var(--espacio-lg);
+    background: var(--color-blanco);
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+}
+
+.artist-card:hover {
+    border-color: var(--color-azul);
+    transform: translateY(-8px);
+}
+
+.artist-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--espacio-md);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--color-gris-claro);
+    position: relative;
+}
+
+.artist-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artist-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: var(--espacio-xs);
+    color: var(--color-texto-oscuro);
+}
+
+.artist-bio {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: var(--espacio-sm);
+    line-height: 1.4;
+}
+
+.artist-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--espacio-md);
+    margin-bottom: var(--espacio-md);
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-xs);
+    color: #666;
+    font-size: 0.8rem;
+}
+
 /* ===== GRIDS ===== */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--espacio-md);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--espacio-lg);
     margin-top: var(--espacio-md);
 }
 
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--espacio-md);
     margin-top: var(--espacio-md);
+}
+
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--espacio-lg);
+    margin-top: var(--espacio-md);
+}
+
+/* ===== BOTONES ===== */
+.btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-xs);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: var(--color-azul);
+    color: var(--color-blanco);
+    box-shadow: 0 4px 15px rgba(71, 75, 202, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--color-azul-claro);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(71, 75, 202, 0.4);
+}
+
+.btn-secondary {
+    background: var(--color-azul-claro);
+    color: var(--color-blanco);
+}
+
+.btn-secondary:hover {
+    background: var(--color-azul);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--color-azul);
+    border: 2px solid var(--color-azul);
+}
+
+.btn-outline:hover {
+    background: var(--color-azul);
+    color: var(--color-blanco);
+    transform: translateY(-2px);
+}
+
+.btn-cart {
+    background: var(--color-azul);
+    color: var(--color-blanco);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(71, 75, 202, 0.3);
+}
+
+.btn-cart:hover {
+    background: var(--color-azul-claro);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(71, 75, 202, 0.4);
 }
 
 /* ===== BADGES ===== */
@@ -210,25 +373,51 @@
     right: 15px;
     background: #e74c3c;
     color: var(--color-blanco);
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
     z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .cards-grid {
         grid-template-columns: 1fr;
-        gap: var(--espacio-sm);
+        gap: var(--espacio-md);
     }
     
     .categories-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
+    .artists-grid {
+        grid-template-columns: 1fr;
+    }
+    
     .card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .category-card:hover {
         transform: translateY(-4px);
+    }
+}
+
+@media (max-width: 480px) {
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .card-category {
+        align-self: flex-start;
     }
 }
