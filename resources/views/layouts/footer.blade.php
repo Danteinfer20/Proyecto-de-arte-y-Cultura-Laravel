@@ -1,73 +1,72 @@
 <footer class="footer">
     <div class="footer-content">
-        <!-- Logo y Descripción -->
+        <!-- Logo and Description -->
         <div class="footer-brand">
             <div class="footer-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Arte y Cultura Popayán" class="footer-logo-img">
-              
+                <img src="{{ asset('images/logo.png') }}" alt="Art and Culture Popayán" class="footer-logo-img">
             </div>
             <p class="footer-description">
-                Promovemos y preservamos el patrimonio cultural, artístico y tradicional de la hermosa ciudad de Popayán, Cauca.
+                We promote and preserve the cultural, artistic, and traditional heritage of the beautiful city of Popayán, Cauca.
             </p>
         </div>
 
-        <!-- Enlaces Importantes -->
+        <!-- Important Links -->
         <div class="footer-links">
-            <h3>Enlaces Rápidos</h3>
+            <h3>Quick Links</h3>
             <ul>
-                <li><a href="{{ url('/') }}">@include('icons.home') Inicio</a></li>
-                <li><a href="{{ url('/events') }}">@include('icons.events') Eventos</a></li>
-                <li><a href="{{ url('/products') }}">@include('icons.products') Productos</a></li>
-                <li><a href="{{ url('/posts') }}">@include('icons.blog') Blog</a></li>
-                <li><a href="{{ url('/about') }}">@include('icons.about') Nosotros</a></li>
+                <li><a href="{{ url('/') }}">@include('components.home') Home</a></li>
+                <li><a href="{{ url('/events') }}">@include('components.events') Events</a></li>
+                <li><a href="{{ url('/products') }}">@include('components.products') Products</a></li>
+                <li><a href="{{ url('/posts') }}">@include('components.blog') Blog</a></li>
+                <li><a href="{{ url('/about') }}">@include('components.about') About Us</a></li>
             </ul>
         </div>
 
-        <!-- Redes Sociales -->
+        <!-- Social Media -->
         <div class="footer-social">
-            <h3>Síguenos</h3>
+            <h3>Follow Us</h3>
             <div class="social-links">
                 <a href="#" class="social-link" aria-label="Facebook">
-                    @include('icons.social-facebook')
+                    @include('components.social-facebook')
                 </a>
                 <a href="#" class="social-link" aria-label="Instagram">
-                    @include('icons.social-instagram')
+                    @include('components.social-instagram')
                 </a>
                 <a href="#" class="social-link" aria-label="YouTube">
-                    @include('icons.social-youtube')
+                    @include('components.social-youtube')
                 </a>
                 <a href="#" class="social-link" aria-label="TikTok">
-                    @include('icons.social-tiktok')
+                    @include('components.social-tiktok')
                 </a>
             </div>
         </div>
 
-        <!-- Información de Contacto -->
+        <!-- Contact Information -->
         <div class="footer-contact">
-            <h3>Contacto</h3>
+            <h3>Contact</h3>
             <div class="contact-info">
                 <div class="contact-item">
-                    @include('icons.email')
+                    @include('components.email')
                     <span>info@arteycultura.com</span>
                 </div>
                 <div class="contact-item">
-                    @include('icons.phone')
+                    @include('components.phone')
                     <span>+57 602 823 4567</span>
                 </div>
                 <div class="contact-item">
-                    @include('icons.location')
+                    @include('components.location')
                     <span>Popayán, Cauca - Colombia</span>
                 </div>
                 <div class="contact-item">
-                    @include('icons.clock')
-                    <span>Lun-Vie: 8:00 AM - 6:00 PM</span>
+                    @include('components.clock')
+                    <span>Mon-Fri: 8:00 AM - 6:00 PM</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Derechos de Autor -->
+    <!-- Copyright -->
     <div class="footer-bottom">
-        <p>&copy; 2024 Arte & Cultura Popayán. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Art & Culture Popayán. All rights reserved.</p>
     </div>
 </footer>

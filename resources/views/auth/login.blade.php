@@ -1,180 +1,109 @@
 @extends('layouts.app')
 
-@section('title', 'Iniciar Sesión - Arte & Cultura Popayán')
+@section('title', 'Login - Art & Culture Popayán')
+
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endsection
 
 @section('content')
-<div class="auth-container">
-    <div class="auth-card">
-        <!-- Header Elegante -->
-        <div class="auth-header">
-            <div class="auth-icon">
-                <i class="fas fa-sign-in-alt"></i>
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- IMPROVED HEADER -->
+            <div class="auth-header">
+                <h2>Login</h2>
+                <p>Continue your cultural journey in Popayán</p>
             </div>
-            <h1>Bienvenido de Nuevo</h1>
-            <p>Accede a tu cuenta para explorar la cultura de Popayán</p>
-        </div>
 
-        <!-- Alert Messages -->
-        @if(session('success'))
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle"></i> {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="alert alert-error">
-                <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}" class="auth-form" id="loginForm">
-            @csrf
-            
-            <div class="form-group floating-label">
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
-                <label for="email">Correo Electrónico</label>
-                <div class="form-icon">
-                    <i class="fas fa-envelope"></i>
+            <!-- IMPROVED STATUS MESSAGES -->
+            @if($errors->any())
+                <div class="alert-error">
+                    @foreach($errors->all() as $error)
+                        {{ $error }}@if(!$loop->last)<br>@endif
+                    @endforeach
                 </div>
-                @error('email')
-                    <span class="error-message">{{ $message }}</span>
-                @enderror
-            </div>
+            @endif
 
-            <div class="form-group floating-label">
-                <input type="password" id="password" name="password" required>
-                <label for="password">Contraseña</label>
-                <div class="form-icon">
-                    <i class="fas fa-lock"></i>
+            @if(session('success'))
+                <div class="alert-success">
+                    {{ session('success') }}
                 </div>
-                @error('password')
-                    <span class="error-message">{{ $message }}</span>
-                @enderror
-            </div>
+            @endif
 
-            <div class="form-options">
-                <div class="checkbox-group">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">
-                        <span class="checkbox-check"></span>
-                        Recordar sesión
-                    </label>
+            <!-- IMPROVED LOGIN FORM -->
+            <form method="POST" action="{{ route('login.post') }}">
+                @csrf
+
+                <!-- EMAIL WITH NEW STRUCTURE -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-with-icon">
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" 
+                               required placeholder="your@email.com" autofocus>
+                        <div class="icon-left">
+                            @include('components.email')
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASSWORD WITH NEW STRUCTURE -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="password" name="password" 
+                               required placeholder="Enter your password">
+                        <div class="icon-left">
+                            @include('components.lock')
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IMPROVED ADDITIONAL OPTIONS -->
+                <div class="login-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">
+                        @include('components.info')
+                        Forgot your password?
+                    </a>
+                </div>
+
+                <!-- IMPROVED LOGIN BUTTON -->
+                <button type="submit" class="btn-primary">
+                    @include('components.login')
+                    Login
+                </button>
+            </form>
+
+            <!-- IMPROVED SOCIAL SEPARATOR -->
+            <div class="social-login">
+                <div class="social-divider">
+                    <span>Or sign in with</span>
                 </div>
                 
-                <div class="forgot-password">
-                    <a href="{{ url('/forgot-password') }}">¿Olvidaste tu contraseña?</a>
+                <div class="social-buttons">
+                    <button type="button" class="social-btn google-btn">
+                        @include('components.google')
+                        Google
+                    </button>
+                    <button type="button" class="social-btn facebook-btn">
+                        @include('components.facebook')
+                        Facebook
+                    </button>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
-                <span class="btn-text">Iniciar Sesión</span>
-                <div class="btn-loading" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Iniciando sesión...
-                </div>
-            </button>
-        </form>
-
-        <div class="auth-footer">
-            <p>¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a></p>
+            <!-- IMPROVED REGISTRATION LINK -->
+            <div class="auth-footer">
+                <a href="{{ route('register') }}">
+                    @include('components.user-plus')
+                    Don't have an account? Sign up for free
+                </a>
+            </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-// JavaScript para el login
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const btnText = loginBtn.querySelector('.btn-text');
-    const btnLoading = loginBtn.querySelector('.btn-loading');
-
-    // Validación en tiempo real
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-
-    emailInput.addEventListener('blur', validateEmail);
-    passwordInput.addEventListener('blur', validatePassword);
-
-    function validateEmail() {
-        const email = emailInput.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (!emailRegex.test(email)) {
-            showFieldError(emailInput, 'Por favor ingresa un correo electrónico válido');
-            return false;
-        } else {
-            clearFieldError(emailInput);
-            return true;
-        }
-    }
-
-    function validatePassword() {
-        const password = passwordInput.value.trim();
-        
-        if (password.length === 0) {
-            showFieldError(passwordInput, 'La contraseña es obligatoria');
-            return false;
-        } else {
-            clearFieldError(passwordInput);
-            return true;
-        }
-    }
-
-    function showFieldError(field, message) {
-        let errorElement = field.parentNode.querySelector('.error-message');
-        
-        if (!errorElement) {
-            errorElement = document.createElement('span');
-            errorElement.className = 'error-message';
-            field.parentNode.appendChild(errorElement);
-        }
-        
-        errorElement.textContent = message;
-        field.style.borderColor = '#EF4444';
-    }
-
-    function clearFieldError(field) {
-        const errorElement = field.parentNode.querySelector('.error-message');
-        if (errorElement) {
-            errorElement.remove();
-        }
-        field.style.borderColor = '';
-    }
-
-    // Loading state al enviar el formulario
-    loginForm.addEventListener('submit', function(e) {
-        const isEmailValid = validateEmail();
-        const isPasswordValid = validatePassword();
-
-        if (isEmailValid && isPasswordValid) {
-            // Mostrar loading
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'block';
-            loginBtn.disabled = true;
-        } else {
-            e.preventDefault();
-        }
-    });
-
-    // Efectos de focus en los campos
-    document.querySelectorAll('.floating-label input').forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
-        });
-
-        input.addEventListener('blur', function() {
-            if (this.value === '') {
-                this.parentElement.classList.remove('focused');
-            }
-        });
-
-        // Inicializar estado si hay valor
-        if (input.value !== '') {
-            input.parentElement.classList.add('focused');
-        }
-    });
-});
-</script>
 @endsection

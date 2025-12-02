@@ -160,3 +160,4 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 }
+

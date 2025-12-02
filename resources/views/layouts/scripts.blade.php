@@ -98,3 +98,30 @@ document.querySelectorAll('.wishlist-btn, .btn-icon').forEach(button => {
         });
     }
 });
+
+// ===== MÓDULO DE PERFIL =====
+// Cargar dinámicamente el módulo de perfil cuando sea necesario
+if (document.querySelector('.dashboard-container')) {
+    console.log('🔄 Cargando módulo de perfil...');
+    
+    // Crear y cargar el script del perfil
+    const profileScript = document.createElement('script');
+    profileScript.src = "{{ asset('js/modules/profile.js') }}";
+    profileScript.onload = function() {
+        console.log('✅ Módulo de perfil cargado correctamente');
+    };
+    profileScript.onerror = function() {
+        console.error('❌ Error al cargar el módulo de perfil');
+    };
+    document.body.appendChild(profileScript);
+}
+
+// Función global para mostrar mensaje de "próximamente"
+function showComingSoon() {
+    alert('🚧 Esta funcionalidad estará disponible próximamente.');
+}
+
+// Inicializar componentes cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ Scripts generales inicializados');
+});

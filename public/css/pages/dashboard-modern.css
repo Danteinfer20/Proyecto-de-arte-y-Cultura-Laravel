@@ -1,0 +1,66 @@
+/* ===== SOLUCIÓN DEFINITIVA PARA EL ESPACIO - DASHBOARD PRINCIPAL ===== */
+
+/* Eliminar espacio del layout */
+body .dashboard-modern ~ header,
+body .dashboard-modern ~ footer {
+    display: none !important;
+}
+
+main.main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dashboard-modern {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+}
+
+/* Header compacto SIN márgenes */
+.dashboard-hero {
+    margin: 0 !important;
+    padding: 2rem 2rem 5rem !important; /* Más padding abajo para estadísticas */
+    border-radius: 0 0 30px 30px !important;
+}
+
+/* Estadísticas SUPER PEGADAS al header */
+.stats-section {
+    padding: 0 2rem !important;
+    margin: -100px auto 2rem !important; /* MARGEN NEGATIVO ENORME */
+    position: relative;
+    z-index: 1000;
+}
+
+.modern-stats-grid {
+    margin: 0 !important;
+}
+
+/* Asegurar que las tarjetas tengan buen z-index */
+.modern-stat-card {
+    position: relative;
+    z-index: 10;
+}
+
+/* Contenido principal ajustado */
+.dynamic-content {
+    padding: 0 2rem 2rem !important;
+    margin-top: 0 !important;
+}
+
+/* Responsive para la solución de espacio */
+@media (max-width: 768px) {
+    .dashboard-hero {
+        padding: 1.5rem 1rem 4rem !important;
+        border-radius: 0 0 20px 20px !important;
+    }
+    
+    .stats-section {
+        margin: -80px auto 1.5rem !important;
+        padding: 0 1rem !important;
+    }
+    
+    .dynamic-content {
+        padding: 0 1rem 1rem !important;
+    }
+}
